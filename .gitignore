@@ -1,0 +1,6 @@
+node_modules
+out
+**.vsix
+.vscode-test/vscode-linux**
+.vscode-test/vscode-macos**
+.vscode-test/vscode-win32**

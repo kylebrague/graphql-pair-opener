@@ -1,0 +1,65 @@
+{
+  "name": "graphql-pair-opener",
+  "displayName": "GraphQL Pair Opener",
+  "description": "Automatically opens corresponding GraphQL type definitions and resolvers.",
+  "version": "0.1.1",
+  "publisher": "your-publisher-name",
+  "engines": {
+    "vscode": "^0.10.5",
+    "node": "22.x"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "configuration": {
+      "title": "GraphQL Pair Opener",
+      "properties": {
+        "graphqlPairOpener.resolverPath": {
+          "type": "string",
+          "default": "src/graphql/resolvers",
+          "description": "The workspace-relative path to your GraphQL resolver files (e.g., 'src/resolvers')."
+        },
+        "graphqlPairOpener.typeDefPath": {
+          "type": "string",
+          "default": "src/graphql/typeDefs",
+          "description": "The workspace-relative path to your GraphQL type definition files (e.g., 'src/schemas')."
+        },
+        "graphqlPairOpener.openInSplitView": {
+          "type": "boolean",
+          "default": true,
+          "description": "If checked, the corresponding file will open in a new split-view panel. If unchecked, it will open as a new tab in the current panel."
+        },
+        "graphqlPairOpener.usePreviewMode": {
+          "type": "boolean",
+          "default": true,
+          "description": "If checked, the file will open in preview mode (italicized tab). If unchecked, it will open as a persistent tab."
+        }
+      }
+    }
+  },
+  "scripts": {
+    "lint": "biome check --write --no-errors-on-unmatched --files-ignore-unknown=true ",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "test": "vscode-test",
+    "vscode:prepublish": "npm run compile",
+    "pretest": "npm run lint && npm run compile",
+    "vscode:package": "vsce package",
+    "build": "npm run prestest && npm run vscode:package"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^2.1.4",
+    "@types/mocha": "^10.0.10",
+    "@types/node": "22.x",
+    "@types/vscode": "^0.10.5",
+    "@vscode/test-cli": "^0.0.11",
+    "@vscode/test-electron": "^2.5.2",
+    "@vscode/vsce": "^3.6.0",
+    "typescript": "^5.9.2"
+  }
+}
