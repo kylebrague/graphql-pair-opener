@@ -35,7 +35,8 @@ For example, in your `.vscode/settings.json`:
   // Example .vscode/settings.json (default options)
   "graphqlPairOpener.resolverPath": "src/graphql/resolvers",
   "graphqlPairOpener.typeDefPath": "src/graphql/typeDefs",
-  "graphqlPairOpener.openInSplitView": true
+  "graphqlPairOpener.openInSplitView": true,
+  "graphqlPairOpener.openInNewTab": true,
 }
 ```
 3. **Start Coding**: That's it! Just open a file from one of the configured directories, and its counterpart will appear.

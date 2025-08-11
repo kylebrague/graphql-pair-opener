@@ -39,7 +39,7 @@
         "graphqlPairOpener.usePreviewMode": {
           "type": "boolean",
           "default": true,
-          "description": "If checked, the file will open in preview mode (italicized tab). If unchecked, it will open as a persistent tab."
+          "description": "If checked, the file will open in preview mode (italicized tab). If unchecked, it will open as a persistent tab. (Note: This setting is only effective when 'Open in Split View' is enabled.)"
         }
       }
     }
@@ -48,10 +48,12 @@
     "lint": "biome check --write --no-errors-on-unmatched --files-ignore-unknown=true ",
     "compile": "tsc -p ./",
     "watch": "tsc -watch -p ./",
-    "vscode:prepackage": "npm run lint && npm run compile",
-    "vscode:package": "vsce package",
-    "build": "npm run vscode:prepackage && npm run vscode:package",
-    "remove-vsix": "ls -tp *.vsix | grep -v '/$' | tail -n +2 | xargs -r rm --"
+    "package": "vsce package",
+    "prepackage": "npm run lint && npm run compile",
+    "build": "npm run lint && npm run compile && vsce package",
+    "remove-old-vsix": "ls -tp *.vsix | grep -v '/$' | tail -n +2 | xargs -r rm --",
+    "install-latest-vsix": "ls -tp *.vsix | grep -v '/$' | head -1 | xargs -r code --install-extension",
+    "build:install": "npm run build && npm run install-latest-vsix"
   },
   "devDependencies": {
     "@biomejs/biome": "^2.1.4",

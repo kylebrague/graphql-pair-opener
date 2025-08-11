@@ -1,5 +1,6 @@
 node_modules
 out
+src/test-dir
 **.vsix
 .vscode-test/vscode-linux**
 .vscode-test/vscode-macos**

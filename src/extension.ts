@@ -41,17 +41,21 @@ export function activate(context: vscode.ExtensionContext) {
       const config = vscode.workspace.getConfiguration("graphqlPairOpener");
       const resolverDir = config.get<string>("resolverPath");
       const typeDefDir = config.get<string>("typeDefPath");
+      // Kill if extension does not need to run
+      const workspaceRelativePath = vscode.workspace.asRelativePath(openedFilePath);
+      if (
+        !resolverDir ||
+        !typeDefDir ||
+        (!workspaceRelativePath.startsWith(resolverDir) &&
+          !workspaceRelativePath.startsWith(typeDefDir))
+      ) {
+        return;
+      }
       const openInSplitView = config.get<boolean>("openInSplitView");
       const usePreviewMode = config.get<boolean>("usePreviewMode");
 
-      if (!resolverDir || !typeDefDir) {
-        return;
-      }
-
       // 3. DETERMINE WHICH FILE WAS OPENED (RESOLVER OR TYPEDEF)
-      const workspaceRelativePath = vscode.workspace.asRelativePath(openedFilePath);
       const baseName = path.basename(openedFilePath, path.extname(openedFilePath));
-
       let targetDir: string | undefined;
 
       if (workspaceRelativePath.startsWith(resolverDir)) {
@@ -65,7 +69,7 @@ export function activate(context: vscode.ExtensionContext) {
         const searchPattern = `**/${targetDir}/${baseName}.*`;
         const foundFiles = await vscode.workspace.findFiles(searchPattern, "**/node_modules/**", 1);
 
-        if (foundFiles.length > 0) {
+        if (foundFiles?.length > 0) {
           const fileToOpenUri = foundFiles[0];
 
           const isAlreadyVisible = vscode.window.visibleTextEditors.some(
@@ -77,15 +81,11 @@ export function activate(context: vscode.ExtensionContext) {
 
             try {
               const docToOpen = await vscode.workspace.openTextDocument(fileToOpenUri);
-
-              const viewColumn = openInSplitView
-                ? vscode.ViewColumn.Beside
-                : vscode.ViewColumn.Active;
-
               // Use the new setting to control preview mode
               await vscode.window.showTextDocument(docToOpen, {
                 preview: usePreviewMode,
-                viewColumn: viewColumn,
+                viewColumn: openInSplitView ? vscode.ViewColumn.Beside : vscode.ViewColumn.Active,
+                preserveFocus: true,
               });
             } catch (error) {
               console.error("GraphQL Pair Opener: Failed to open document.", error);
@@ -94,7 +94,7 @@ export function activate(context: vscode.ExtensionContext) {
 
             setTimeout(() => {
               openedByExtension.delete(fileToOpenUri.fsPath);
-            }, 1000);
+            }, 300);
           }
         }
       }
