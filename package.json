@@ -14,10 +14,25 @@
     "Other"
   ],
   "activationEvents": [
-    "onStartupFinished"
+    "onCommand:graphql-pair-opener.openPair"
   ],
   "main": "./out/extension.js",
   "contributes": {
+    "commands": [
+      {
+        "command": "graphql-pair-opener.openPair",
+        "title": "Open Corresponding GraphQL File"
+      }
+    ],
+    "menus": {
+      "explorer/context": [
+        {
+          "command": "graphql-pair-opener.openPair",
+          "group": "navigation",
+          "when": "resourceLangId == typescript || resourceLangId == javascript || resourceLangId == graphql"
+        }
+      ]
+    },
     "configuration": {
       "title": "GraphQL Pair Opener",
       "properties": {
@@ -35,6 +50,11 @@
           "type": "boolean",
           "default": true,
           "description": "If checked, the corresponding file will open in a new split-view panel. If unchecked, it will open as a new tab in the current panel."
+        },
+        "graphqlPairOpener.usePreviewMode": {
+          "type": "boolean",
+          "default": false,
+          "description": "If checked, the file will open in preview mode (italicized tab). If unchecked, it will open as a persistent tab."
         }
       }
     }

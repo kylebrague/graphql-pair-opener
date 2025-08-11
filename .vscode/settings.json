@@ -1,5 +1,5 @@
 {
   "graphqlPairOpener.resolverPath": "src/test-dir/graphql/resolvers",
   "graphqlPairOpener.typeDefPath": "src/test-dir/graphql/typeDefs",
-  "graphqlPairOpener.openInSplitView": false,
+  "graphqlPairOpener.openInSplitView": true
 }
