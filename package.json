@@ -2,7 +2,7 @@
   "name": "graphql-pair-opener",
   "displayName": "GraphQL Pair Opener",
   "description": "Automatically opens corresponding GraphQL type definitions and resolvers.",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "publisher": "kylebrague",
   "license": "MIT",
   "repository": "https://github.com/kylebrague/graphql-pair-opener.git",
