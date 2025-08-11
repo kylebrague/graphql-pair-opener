@@ -3,7 +3,9 @@
   "displayName": "GraphQL Pair Opener",
   "description": "Automatically opens corresponding GraphQL type definitions and resolvers.",
   "version": "0.1.1",
-  "publisher": "your-publisher-name",
+  "publisher": "kylebrague",
+  "license": "MIT",
+  "repository": "https://github.com/kylebrague/graphql-pair-opener.git",
   "engines": {
     "vscode": "^0.10.5",
     "node": "22.x"
@@ -46,11 +48,10 @@
     "lint": "biome check --write --no-errors-on-unmatched --files-ignore-unknown=true ",
     "compile": "tsc -p ./",
     "watch": "tsc -watch -p ./",
-    "test": "vscode-test",
-    "vscode:prepublish": "npm run compile",
-    "pretest": "npm run lint && npm run compile",
+    "vscode:prepackage": "npm run lint && npm run compile",
     "vscode:package": "vsce package",
-    "build": "npm run prestest && npm run vscode:package"
+    "build": "npm run vscode:prepackage && npm run vscode:package",
+    "remove-vsix": "ls -tp *.vsix | grep -v '/$' | tail -n +2 | xargs -r rm --"
   },
   "devDependencies": {
     "@biomejs/biome": "^2.1.4",
