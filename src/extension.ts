@@ -6,8 +6,33 @@
  * it provides an option to open its corresponding counterpart.
  */
 
-import * as path from "path";
+import * as path from "node:path";
 import * as vscode from "vscode";
+
+/**
+ * Updates context keys based on the currently active file
+ */
+function updateContextKeys() {
+  const config = vscode.workspace.getConfiguration("graphqlPairOpener");
+  const resolverDir = config.get<string>("resolverPath");
+  const typeDefDir = config.get<string>("typeDefPath");
+  // get all files in the given dirs
+  const supportedDirs: string[] = [];
+
+  if (resolverDir) {
+    supportedDirs.push(
+      `${vscode.workspace.workspaceFolders?.[0].uri.fsPath}/${resolverDir}`,
+      resolverDir
+    );
+  }
+  if (typeDefDir) {
+    supportedDirs.push(
+      `${vscode.workspace.workspaceFolders?.[0].uri.fsPath}/${typeDefDir}`,
+      typeDefDir
+    );
+  }
+  vscode.commands.executeCommand("setContext", "graphqlPairOpener.supportedDirs", supportedDirs);
+}
 
 /**
  * This is the main activation function for the extension.
@@ -17,7 +42,13 @@ import * as vscode from "vscode";
  * @param context The extension context provided by VS Code.
  */
 export function activate(context: vscode.ExtensionContext) {
-  // 1. REGISTER THE COMMAND
+  // 1. SET UP CONTEXT KEYS
+  updateContextKeys();
+
+  // Listen for active editor changes to update context keys
+  context.subscriptions.push(vscode.window.onDidChangeActiveTextEditor(() => updateContextKeys()));
+
+  // 2. REGISTER THE COMMAND
   // This creates the command 'graphql-pair-opener.openPair' and defines
   // the logic that will execute when it's called.
   const openPairCommand = vscode.commands.registerCommand(

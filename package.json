@@ -2,34 +2,38 @@
   "name": "graphql-pair-opener",
   "displayName": "GraphQL Pair Opener",
   "description": "Automatically opens corresponding GraphQL type definitions and resolvers.",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "publisher": "kylebrague",
   "license": "MIT",
   "repository": "https://github.com/kylebrague/graphql-pair-opener.git",
   "engines": {
-    "vscode": "^0.10.5",
+    "vscode": "^1.80.0",
     "node": "22.x"
   },
   "categories": [
     "Other"
-  ],
-  "activationEvents": [
-    "onCommand:graphql-pair-opener.openPair"
   ],
   "main": "./out/extension.js",
   "contributes": {
     "commands": [
       {
         "command": "graphql-pair-opener.openPair",
-        "title": "Open Corresponding GraphQL File"
+        "title": "Open Corresponding TypeDef/Resolver File"
       }
     ],
     "menus": {
       "explorer/context": [
         {
           "command": "graphql-pair-opener.openPair",
-          "group": "navigation",
-          "when": "resourceLangId == typescript || resourceLangId == javascript || resourceLangId == graphql"
+          "group": "navigation@99",
+          "when": "resourceLangId == 'graphql' || resourceLangId == 'typescript'|| resourceLangId == 'javascript'"
+        }
+      ],
+      "editor/title/context": [
+        {
+          "command": "graphql-pair-opener.openPair",
+          "group": "navigation@99",
+          "when": "resourceDirname in graphqlPairOpener.supportedDirs"
         }
       ]
     },
@@ -74,7 +78,7 @@
     "@biomejs/biome": "^2.1.4",
     "@types/mocha": "^10.0.10",
     "@types/node": "22.x",
-    "@types/vscode": "^0.10.5",
+    "@types/vscode": "^1.80.0",
     "@vscode/test-cli": "^0.0.11",
     "@vscode/test-electron": "^2.5.2",
     "@vscode/vsce": "^3.6.0",
