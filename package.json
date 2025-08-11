@@ -35,11 +35,6 @@
           "type": "boolean",
           "default": true,
           "description": "If checked, the corresponding file will open in a new split-view panel. If unchecked, it will open as a new tab in the current panel."
-        },
-        "graphqlPairOpener.usePreviewMode": {
-          "type": "boolean",
-          "default": true,
-          "description": "If checked, the file will open in preview mode (italicized tab). If unchecked, it will open as a persistent tab. (Note: This setting is only effective when 'Open in Split View' is enabled.)"
         }
       }
     }

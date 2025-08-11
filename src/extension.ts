@@ -49,10 +49,12 @@ export function activate(context: vscode.ExtensionContext) {
         (!workspaceRelativePath.startsWith(resolverDir) &&
           !workspaceRelativePath.startsWith(typeDefDir))
       ) {
+        console.log(
+          "GraphQL Pair Opener: The opened file is not in the configured resolver or type definition directories."
+        );
         return;
       }
       const openInSplitView = config.get<boolean>("openInSplitView");
-      const usePreviewMode = config.get<boolean>("usePreviewMode");
 
       // 3. DETERMINE WHICH FILE WAS OPENED (RESOLVER OR TYPEDEF)
       const baseName = path.basename(openedFilePath, path.extname(openedFilePath));
@@ -83,9 +85,8 @@ export function activate(context: vscode.ExtensionContext) {
               const docToOpen = await vscode.workspace.openTextDocument(fileToOpenUri);
               // Use the new setting to control preview mode
               await vscode.window.showTextDocument(docToOpen, {
-                preview: usePreviewMode,
                 viewColumn: openInSplitView ? vscode.ViewColumn.Beside : vscode.ViewColumn.Active,
-                preserveFocus: true,
+                preserveFocus: false,
               });
             } catch (error) {
               console.error("GraphQL Pair Opener: Failed to open document.", error);
