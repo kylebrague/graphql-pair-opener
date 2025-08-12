@@ -229,6 +229,7 @@ export function activate(context: vscode.ExtensionContext) {
             await vscode.window.showTextDocument(resolverDoc, {
               preview: false,
               viewColumn: openInSplitView ? vscode.ViewColumn.Beside : vscode.ViewColumn.Active,
+              preserveFocus: true,
             });
           } catch (error) {
             console.error("GraphQL Pair Opener: Failed to open resolver document.", error);
@@ -248,6 +249,7 @@ export function activate(context: vscode.ExtensionContext) {
             await vscode.window.showTextDocument(typeDefDoc, {
               preview: false,
               viewColumn: openInSplitView ? vscode.ViewColumn.Beside : vscode.ViewColumn.Active,
+              preserveFocus: true,
             });
           } catch (error) {
             console.error("GraphQL Pair Opener: Failed to open typedef document.", error);
