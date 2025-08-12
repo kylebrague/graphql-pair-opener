@@ -19,6 +19,10 @@
       {
         "command": "graphql-pair-opener.openPair",
         "title": "Open Corresponding TypeDef/Resolver File"
+      },
+      {
+        "command": "graphql-pair-opener.openBoth",
+        "title": "Open Both TypeDef and Resolver Files"
       }
     ],
     "menus": {
@@ -26,14 +30,24 @@
         {
           "command": "graphql-pair-opener.openPair",
           "group": "navigation@99",
-          "when": "resourceLangId == 'graphql' || resourceLangId == 'typescript'|| resourceLangId == 'javascript'"
+          "when": "resourceLangId == 'graphql' || resourceLangId == 'typescript' || resourceLangId == 'javascript'"
+        },
+        {
+          "command": "graphql-pair-opener.openBoth",
+          "group": "navigation@99",
+          "when": "resourceLangId == 'graphql' || resourceLangId == 'typescript' || resourceLangId == 'javascript'"
         }
       ],
       "editor/title/context": [
         {
           "command": "graphql-pair-opener.openPair",
           "group": "navigation@99",
-          "when": "resourceDirname in graphqlPairOpener.supportedDirs"
+          "when": "graphqlPairOpener.isInSupportedDir"
+        },
+        {
+          "command": "graphql-pair-opener.openBoth",
+          "group": "navigation@99",
+          "when": "graphqlPairOpener.isInSupportedDir"
         }
       ]
     },
