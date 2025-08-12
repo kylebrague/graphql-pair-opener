@@ -177,7 +177,6 @@ export function activate(context: vscode.ExtensionContext) {
       const resolverDir = config.get<string>("resolverPath");
       const typeDefDir = config.get<string>("typeDefPath");
       const openInSplitView = config.get<boolean>("openInSplitView");
-      const usePreviewMode = config.get<boolean>("usePreviewMode");
 
       if (!resolverDir || !typeDefDir) {
         vscode.window.showErrorMessage(
@@ -247,7 +246,7 @@ export function activate(context: vscode.ExtensionContext) {
           try {
             const typeDefDoc = await vscode.workspace.openTextDocument(typeDefFile);
             await vscode.window.showTextDocument(typeDefDoc, {
-              preview: usePreviewMode,
+              preview: false,
               viewColumn: openInSplitView ? vscode.ViewColumn.Beside : vscode.ViewColumn.Active,
             });
           } catch (error) {
