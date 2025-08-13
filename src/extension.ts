@@ -146,6 +146,7 @@ export function activate(context: vscode.ExtensionContext) {
               await vscode.window.showTextDocument(docToOpen, {
                 preview: usePreviewMode,
                 viewColumn,
+                preserveFocus: true
               });
             } catch (error) {
               console.error("GraphQL Pair Opener: Failed to open document.", error);
@@ -211,6 +212,7 @@ export function activate(context: vscode.ExtensionContext) {
           await vscode.window.showTextDocument(originalDoc, {
             preview: false,
             viewColumn: vscode.ViewColumn.Active,
+            preserveFocus: true
           });
         } catch (error) {
           console.error("GraphQL Pair Opener: Failed to open original document.", error);

@@ -1,52 +1,111 @@
-# GraphQL Pair Opener
+# Pair Opener
 
-A simple but powerful VS Code extension to improve your GraphQL development workflow.
+A VS Code extension that streamlines GraphQL development by providing quick access to related resolver and type definition files.
+
+At the most basic level, this just looks for files with the same base name (excluding extensions) in the configured resolver and type definition directories. Whether or not they are related to GraphQL is irrelevant.
+
+## Quick Start
+
+```bash
+git clone https://github.com/kylebrague/graphql-pair-opener.git
+cd graphql-pair-opener
+npm install # or just make sure you have VS Code Extension Manager (https://github.com/microsoft/vscode-vsce) installed
+npm run build:install
+```
+Reload your window and that's it.
 
 ## Features
 
-This extension automatically opens the corresponding GraphQL file when you open either a resolver or a type definition.
+This extension adds convenient context menu commands to quickly navigate between GraphQL resolvers and type definitions that share the same base filename.
 
-- Open a resolver file (e.g., `src/graphql/resolvers/user.ts`).
+### Two Main Commands:
 
-- The corresponding type definition (e.g., `src/graphql/typeDefs/user.graphql`) automatically opens in a split-screen view.
+1. **Open Corresponding TypeDef/Resolver File** - Opens the matching file (resolver ↔ typedef)
+2. **Open Both TypeDef and Resolver Files** - Opens both related files simultaneously
 
-- The same thing happens in reverse if you open the type definition first.
+### Key Benefits:
 
-This saves you the time and effort of manually searching for and opening related files.
+- **Quick Navigation**: Right-click any resolver or typedef file to instantly open its counterpart
+- **Flexible File Extensions**: Works with any file extension (`.ts`, `.js`, `.graphql`, etc.)
+- **Smart Context Awareness**: Commands only appear for files in your configured directories
+- **Customizable Layout**: Choose between split-view or new tabs
+- **Preview Mode Support**: Optionally open files in preview mode
 
-## How to Use
+## Installation
 
-1. **Install the Extension**: Build the .vsix file and install it in VS Code.
-   You can do this by running the following command in your terminal:
-
+### Option 1: Install from VSIX (Recommended)
 ```bash
+# Download or build the .vsix file
 vsce package
+
+# Install in VS Code
+code --install-extension graphql-pair-opener-0.2.4.vsix
 ```
 
-Then, install the generated `.vsix` file in VS Code by going to `Extensions > Install from VSIX...`.
+### Option 2: Install from Marketplace
+Search for "GraphQL Pair Opener" in the VS Code Extensions marketplace.
 
-2. **Configure Paths**: This extension works by knowing where your resolver and type definition files are. You must configure these paths in your VS Code settings.
+## Configuration
 
-- Open your settings: `File > Preferences > Settings` (or `Code > Settings > Settings on macOS`).
-
-- Search for "GraphQL Pair Opener".
-
-- Set the `Resolver Path` and `TypeDef Path` to match your project's structure. The paths should be relative to your workspace root.
-
-For example, in your `.vscode/settings.json`:
+Configure the extension to match your project structure by setting these workspace or user settings:
 
 ```jsonc
 {
-  // Example .vscode/settings.json (default options)
   "graphqlPairOpener.resolverPath": "src/graphql/resolvers",
-  "graphqlPairOpener.typeDefPath": "src/graphql/typeDefs",
+  "graphqlPairOpener.typeDefPath": "src/graphql/typeDefs", 
   "graphqlPairOpener.openInSplitView": true,
-  "graphqlPairOpener.openInNewTab": true
+  "graphqlPairOpener.usePreviewMode": false
 }
 ```
 
-3. **Start Coding**: Right-click on a resolver or type definition file in the VS Code explorer. Select "Open Corresponding GraphQL File" from the menu, and its counterpart will open based on your settings.
+### Configuration Options:
 
-## Next Steps
+| Setting | Default | Description |
+|---------|---------|-------------|
+| `resolverPath` | `"src/graphql/resolvers"` | Workspace-relative path to resolver files |
+| `typeDefPath` | `"src/graphql/typeDefs"` | Workspace-relative path to type definition files |
+| `openInSplitView` | `true` | Open files in split view (beside) vs. new tab |
+| `usePreviewMode` | `false` | Open files in preview mode (italicized tab) |
 
-The next planned feature is to also open the corresponding Sequelize model file, giving you a three-way view of your data structure: the database model, the GraphQL schema, and the resolver logic.
+## Usage
+
+1. **Configure Paths**: Set your resolver and typedef directory paths in VS Code settings
+2. **Right-Click Files**: Use the context menu on any file in your configured directories
+3. **Choose Command**:
+   - **"Open Corresponding TypeDef/Resolver File"** - Opens the matching file
+   - **"Open Both TypeDef and Resolver Files"** - Opens both files
+
+### Example Project Structure:
+```
+src/
+  graphql/
+    resolvers/
+      User.ts      ← Right-click here
+      Project.js
+    typeDefs/
+      User.graphql ← Opens this file
+      Project.ts
+```
+
+## How It Works
+
+The extension matches files by their base filename (without extension). For example:
+- `resolvers/User.ts` ↔ `typeDefs/User.graphql`
+- `resolvers/Project.js` ↔ `typeDefs/Project.ts`
+
+It uses VS Code's file search API to find matching files, making it flexible across different file extensions and project structures.
+
+## Development
+
+### Building from Source:
+```bash
+npm install
+npm run build
+```
+
+### Available Scripts:
+- `npm run compile` - Compile TypeScript
+- `npm run watch` - Watch mode compilation
+- `npm run lint` - Run Biome linter
+- `npm run build` - Full build and package
+- `npm run build:install` - Build and install locally
